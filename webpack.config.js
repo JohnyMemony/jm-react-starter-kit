@@ -11,24 +11,37 @@ module.exports = {
     publicPath: '/',
   },
   module: {
-    rules: [{
-      test: /\.scss$/,
-      use: [
-        MiniCssExtractPlugin.loader,
-        'css-loader',
-        {
-          loader: 'postcss-loader',
-          options: {
-            plugins: () => [require('autoprefixer')]
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader'
+        }
+      },
+      {
+        test: /\.scss$/,
+        exclude: /node_modules/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: () => [require('autoprefixer')]
+            },
           },
-        },
-        'sass-loader',
-      ]
-    }]
+          'sass-loader',
+        ]
+      },
+    ]
   },
   plugins: [
     new HtmlWebpackPlugin({template: './src/index.html'}),
-    new MiniCssExtractPlugin({filename: 'build.css'}),
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+      chunkFilename: '[id].css',
+    }),
   ],
   devServer: {
     port: 1000,
