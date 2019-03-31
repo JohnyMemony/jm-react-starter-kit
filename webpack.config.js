@@ -2,9 +2,14 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
+
+require('dotenv').config();
+
+const {MODE, PORT} = process.env;
 
 module.exports = {
-  mode: 'development',
+  mode: MODE,
   entry: './src/App.js',
   output: {
     path: path.resolve(__dirname, 'build'),
@@ -35,6 +40,42 @@ module.exports = {
           'sass-loader',
         ]
       },
+      {
+        test: /\.(png|jpg|gif)$/,
+        use: [
+          {
+            loader: 'file-loader',
+          },
+        ],
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|svg)(\?.*$|$)/,
+        loader: 'file-loader',
+        options: {
+          name: '[path][name].[ext]',
+        },
+      },
+      {
+        test: /\.(ico)$/i,
+        loader: 'file-loader',
+        options: {
+          name: '[name].[ext]',
+        },
+      },
+      {
+        test: /\.json$/,
+        loader: 'file-loader',
+        options: {
+          name: '[name].[ext]',
+        },
+      },
+      {
+        test: /\.(jpe?g|png|gif|mp4)$/i,
+        loader: 'file-loader',
+        options: {
+          name: '[path][name]-[sha512:hash:base64:4].[ext]',
+        },
+      },
     ]
   },
   plugins: [
@@ -44,10 +85,16 @@ module.exports = {
       chunkFilename: '[id].css',
     }),
     new CopyPlugin(),
+    new Dotenv(),
   ],
   devServer: {
-    port: 1000,
+    port: PORT,
     compress: true,
+    disableHostCheck: true,
+    historyApiFallback: true,
+    inline: true,
+    hot: true,
+    stats: 'minimal',
     overlay: true,
   },
 };
