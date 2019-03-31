@@ -1,15 +1,21 @@
+/* globals require */
+
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const autoprefixer = require('autoprefixer');
 const Dotenv = require('dotenv-webpack');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 require('dotenv').config();
 
-const {MODE, PORT} = process.env;
+const {NODE_ENV, PORT} = process.env;
 
 module.exports = {
-  mode: MODE,
+  mode: NODE_ENV,
   entry: './src/App.js',
   output: {
     path: path.resolve(__dirname, 'build'),
@@ -22,8 +28,8 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader'
-        }
+          loader: 'babel-loader',
+        },
       },
       {
         test: /\.scss$/,
@@ -34,11 +40,11 @@ module.exports = {
           {
             loader: 'postcss-loader',
             options: {
-              plugins: () => [require('autoprefixer')]
+              plugins: () => [autoprefixer],
             },
           },
           'sass-loader',
-        ]
+        ],
       },
       {
         test: /\.(png|jpg|gif)$/,
@@ -76,9 +82,18 @@ module.exports = {
           name: '[path][name]-[sha512:hash:base64:4].[ext]',
         },
       },
-    ]
+    ],
+  },
+  optimization: {
+    minimize: true,
+    nodeEnv: NODE_ENV,
+    minimizer: [
+      new UglifyJsPlugin(),
+      new OptimizeCssAssetsPlugin(),
+    ],
   },
   plugins: [
+    new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({template: './src/index.html'}),
     new MiniCssExtractPlugin({
       filename: '[name].css',
