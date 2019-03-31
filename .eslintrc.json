@@ -1,0 +1,108 @@
+{
+  "extends": "airbnb",
+  "parser": "babel-eslint",
+  "rules": {
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [
+          ".js",
+          ".jsx"
+        ]
+      }
+    ],
+    "react/jsx-indent": [
+      "error",
+      2
+    ],
+    "react/jsx-indent-props": [
+      "error",
+      "first"
+    ],
+    "jsx-a11y/anchor-is-valid": [
+      "error",
+      {
+        "components": [
+          "Link"
+        ],
+        "specialLink": [
+          "to"
+        ],
+        "aspects": [
+          "noHref",
+          "invalidHref",
+          "preferButton"
+        ]
+      }
+    ],
+    "react/prop-types": [
+      1,
+      {
+        "ignore": [
+          "children",
+          "location",
+          "match",
+          "history"
+        ]
+      }
+    ],
+    "indent": [
+      "error",
+      2
+    ],
+    "object-curly-spacing": [
+      "error",
+      "never"
+    ],
+    "no-underscore-dangle": [
+      "error",
+      {
+        "allow": [
+          "__REDUX_DEVTOOLS_EXTENSION_COMPOSE__"
+        ]
+      }
+    ],
+    "jsx-a11y/label-has-for": [
+      [
+        2,
+        {
+          "components": [
+            "Label"
+          ],
+          "required": {
+            "every": [
+              "nesting",
+              "id"
+            ]
+          },
+          "allowChildren": false
+        }
+      ]
+    ],
+    "linebreak-style": 0,
+    "radix": [
+      "error",
+      "as-needed"
+    ],
+    "max-len": [
+      "error",
+      {
+        "code": 120
+      }
+    ],
+    "no-plusplus": 0,
+    "react/destructuring-assignment": 0,
+    "prefer-template": 0,
+    "import/first": 0,
+    "import/order": 0
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "paths": [
+          "src"
+        ]
+      }
+    }
+  }
+}
