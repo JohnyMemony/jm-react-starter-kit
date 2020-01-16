@@ -16,7 +16,11 @@ const {NODE_ENV, PORT} = process.env;
 
 module.exports = {
   mode: NODE_ENV,
-  entry: './src/App.js',
+  devtool: 'source-map',
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js'],
+  },
+  entry: './src/App.tsx',
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: 'main.bundle.js',
@@ -25,11 +29,18 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.ts(x?)$/,
         exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-        },
+        use: [
+          {
+            loader: 'ts-loader',
+          },
+        ],
+      },
+      {
+        enforce: 'pre',
+        test: /\.js$/,
+        loader: 'source-map-loader',
       },
       {
         test: /\.scss$/,
@@ -88,7 +99,6 @@ module.exports = {
     minimize: true,
     nodeEnv: NODE_ENV,
     minimizer: [
-      new UglifyJsPlugin(),
       new OptimizeCssAssetsPlugin(),
     ],
   },
