@@ -1,2 +1,2 @@
 # jm-react-starter-kit
-Starter kit for react app
+Empty project with React and Redux
